@@ -1,0 +1,9 @@
+output
+*.exe
+*.obj
+*.res
+*.ppx
+*.tag
+*.bak
+*.ini
+*.map
