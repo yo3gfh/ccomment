@@ -1,0 +1,17 @@
+;
+; settings for CommentProc plugin for Pelle's C IDE
+; copy this to \PellesC\Bin\AddIns64, where the
+; DLL resides
+;
+
+[settings]
+; default author name Adrian Petrila, YO3GFH
+author=Adrian Petrila, YO3GFH					
+
+; keyboard shortcut for the menu command
+; 0=VK_F6, 1=VK_F7, 2=VK_F8, 3=VK_F9, 4=VK_F10, 5=VK_F11, 6=VK_F12
+; change it to taste or if conflicting with other plugins
+kb_shortcut=6
+
+; also copy to clipboard?
+clip_copy=0
