@@ -1,4 +1,4 @@
-## COMMENTPROC, a plugin for Pelle's C IDE, inserts a function synopsis at cursor
+## CCOMMENT, a plugin for Pelle's C IDE, inserts a function synopsis at cursor
 Copyright (c) 2002-2020 Adrian Petrila, YO3GFH
 
 -------
