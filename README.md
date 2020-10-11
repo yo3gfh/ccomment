@@ -19,4 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **Features**
 
-* inserts a function commnent header at current cursor/selection
+* inserts a function commnent header (synopsis) for the C function at 
+  current cursor/selection
+* exports all function prototypes from the current C source file to a
+  new header file
