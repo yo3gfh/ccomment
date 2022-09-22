@@ -9,7 +9,7 @@ LANGUAGE LANG_ENGLISH,SUBLANG_ENGLISH_US
 8001 ICON "commentproc.ico"
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION 1,0,0,0
+FILEVERSION 1, 0, 0, 1
 PRODUCTVERSION 1,0,0,0
 FILEFLAGSMASK 0x3F
 FILEFLAGS 0x0
@@ -23,7 +23,7 @@ FILESUBTYPE VFT2_UNKNOWN
     {
       VALUE "CompanyName", "Home\0"
       VALUE "FileDescription", "Generate C function description as comment in sourcefile\0"
-      VALUE "FileVersion", "1.0.0.0\0"
+VALUE "FileVersion", "1.0.0.1\0"
       VALUE "InternalName", "commentproc.dll\0"
       VALUE "LegalCopyright", "CommentProc (x64) for Pelle's C IDE plugin - (c) 2020 Adrian Petrila, YO3GFH\0"
       VALUE "OriginalFilename", "commentproc.dll\0"

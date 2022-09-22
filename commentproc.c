@@ -657,6 +657,7 @@ static WCHAR * StripCrap ( const WCHAR * wsrc, WCHAR * wdest, int cchMax )
     WCHAR   * p, * s;
 
     BOOL    skipping        = TRUE;
+    BOOL    cr_skipping     = TRUE;
     BOOL    in_comment      = FALSE;
     BOOL    in_macro        = FALSE;
     BOOL    block_comment   = FALSE;
@@ -739,8 +740,18 @@ static WCHAR * StripCrap ( const WCHAR * wsrc, WCHAR * wdest, int cchMax )
             continue;
         }
 
-        if ( IsEndl ( wsrc[i]) ) // get rid of all endline
+        // try to accomodate the multiline MS style function
+        // "beautification" :-)
+        // gobble one CR and make it a space
+        if ( IsEndl ( wsrc[i]) ) 
+        {
+            if ( cr_skipping == FALSE )
+            {
+                *p++ = TEXT(' ');
+                cr_skipping = TRUE;
+            }
             continue;
+        }
 
         if ( IsWhite(wsrc[i]) )
         {
@@ -755,6 +766,7 @@ static WCHAR * StripCrap ( const WCHAR * wsrc, WCHAR * wdest, int cchMax )
         {
             *p++ = wsrc[i];
             skipping = FALSE;
+            cr_skipping = FALSE;
         }
     }
 
