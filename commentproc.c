@@ -21,7 +21,12 @@
     Features
     --------
 
-        - inserts a function commnent header at current cursor/selection
+        - inserts a function commnent header (synopsis) for the C function at 
+        current cursor/selection
+        
+        - exports all function prototypes from the current C source file to a
+        new header file
+
 */
 
 #pragma warn(disable: 2008 2118 2228 2231 2030 2260)
@@ -531,7 +536,7 @@ static BOOL IsCFunction ( const WCHAR * ws, CFUNCTION * cf )
     semi_c      = wcschr ( ws, L';' );
     comma       = wcschr ( ws, L',' );
     
-    // make a copy for _tcstok
+    // make a copy for _wcstok_ms
     StringCchCopy ( temp, ARRAYSIZE(temp), ws );
 
     s           = _wcstok_ms ( temp, L" ()[]{},;" );
@@ -1151,8 +1156,8 @@ static BOOL CopyFunctionInfo ( HWND hIde, const CFUNCTION * cf )
 static WCHAR * Today ( void )
 /*--------------------------------------------------------------------------*/
 {
-    static WCHAR    buf[128];
-    SYSTEMTIME      st;
+    static _Thread_local WCHAR  buf[128];
+    SYSTEMTIME                  st;
 
     buf[0] = '\0';
     GetLocalTime ( &st );
@@ -1313,8 +1318,8 @@ static HWND GetCrtSourceWnd ( HWND hIde )
 static WCHAR * IniFromModule ( HMODULE hMod )
 /*--------------------------------------------------------------------------*/
 {
-    static WCHAR    buf[MAX_PATH];
-    WCHAR           * p;
+    static _Thread_local WCHAR  buf[MAX_PATH];
+    WCHAR                       * p;
 
     buf[0]  = L'\0';
     p       = buf;
@@ -1350,7 +1355,7 @@ static WCHAR * IniFromModule ( HMODULE hMod )
 static WCHAR * ReadAuthorFromIni ( const WCHAR * inifile )
 /*--------------------------------------------------------------------------*/
 {
-    static WCHAR buf[MAX_PATH];
+    static _Thread_local WCHAR buf[MAX_PATH];
 
     GetPrivateProfileStringW ( L"settings", L"author", L"<bugmeister>", buf, 
         ARRAYSIZE(buf), inifile );
@@ -1549,9 +1554,9 @@ static INT_PTR CALLBACK OptDlgProc ( HWND hDlg, UINT msg, WPARAM wParam,
 static WCHAR * FILE_Extract_filename ( const WCHAR * src )
 /*--------------------------------------------------------------------------*/
 {
-    DWORD           idx, len, end;
-    static WCHAR    temp[MAX_PATH+1];
-
+    DWORD                       idx, len, end;
+    static _Thread_local WCHAR  temp[MAX_PATH+1]; // pretend this is not 
+                                                  // bad design :-)) 
     if ( src == NULL )
         return NULL;
 
@@ -1589,8 +1594,8 @@ static WCHAR * FILE_Extract_filename ( const WCHAR * src )
 static WCHAR * FILE_Extract_path ( const WCHAR * src, BOOL last_bslash )
 /*--------------------------------------------------------------------------*/
 {
-    DWORD           idx;
-    static WCHAR    temp[MAX_PATH+1];
+    DWORD                        idx;
+    static _Thread_local WCHAR   temp[MAX_PATH+1];
 
     if ( src == NULL )
         return NULL;
@@ -1874,6 +1879,7 @@ static BOOL CALLBACK FindCDefsProc ( BOOL valid, DWORD lines,
         StringCchPrintf ( temp, ARRAYSIZE(temp), L"%ls // line %lu\n", 
             (WCHAR *)wParam, crtline );
 
+        // send the line in the new header doc window
         AddIn_ReplaceSourceSelText ( (HWND)lParam, temp );
     }
 
